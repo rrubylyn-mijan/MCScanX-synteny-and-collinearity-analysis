@@ -1,0 +1,1 @@
+# MCScanX-synteny-and-collinearity-analysis
