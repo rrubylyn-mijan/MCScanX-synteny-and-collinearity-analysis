@@ -7,7 +7,6 @@ The analysis combines GFF3 annotations, protein sequence alignments (BLASTP), an
 git clone https://github.com/wyp1125/MCScanX.git
 cd MCScanX
 make
-./MCScanX
 
 # Verify Installation
 ./MCScanX
