@@ -42,7 +42,9 @@ cat wheat-subject-protein-sequences.fasta wheat-query.protein.fa > combined-whea
 awk '$3 == "gene" {split($9, a, ";"); print $1, a[1]"_1", $4, $5}' OFS='\t' wheat-subject.high.gff3 > fixed-wheat-subject.gff
 
 # Fix Gene Naming for Compatibility
-awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' wheat-query.gff > wheat-query-fixed.gff
+awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' fixed-wheat-subject.gff > updated-wheat-subject.fixed.gff
+
+# Do the same for the wheat-query
 
 # Combine Annotations
 cat wheat-subject.gff wheat-query-fixed.gff > combined-wheats-subject-query.gff
