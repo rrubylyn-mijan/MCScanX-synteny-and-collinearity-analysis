@@ -31,26 +31,7 @@ conda activate emboss_env
 transeq -sequence wheat.subject.cds.fa -outseq wheat-subject-protein-sequences.fasta
 transeq -sequence wheat.query.cds.fa -outseq wheat-query-protein-sequences.fasta
 ```
-
-## 3. Combine Protein Files
-```bash
-cat wheat-subject-protein-sequences.fasta wheat-query.protein.fa > combined-wheats-subject-query.fasta
-```
-
-## 4. Prepare GFF Files
-```bash
-awk '$3 == "gene" {split($9, a, ";"); print $1, a[1]"_1", $4, $5}' OFS='\t' wheat-subject.high.gff3 > fixed-wheat-subject.gff
-
-# Fix Gene Naming for Compatibility
-awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' fixed-wheat-subject.gff > updated-wheat-subject.fixed.gff
-
-# Do the same for the wheat-query
-
-# Combine Annotations
-cat wheat-subject.gff wheat-query-fixed.gff > combined-wheats-subject-query.gff
-```
-
-## 5. Run BLASTP Alignments
+## 3. Run BLASTP Alignments
 ```bash
 # Create BLAST Databases
 ml blast/2.16.0
@@ -59,8 +40,8 @@ makeblastdb -in combined-wheats-subject-query.fasta -dbtype prot -out combined_d
 makeblastdb -in wheat-query.protein.fa -dbtype prot -out wheat_db
 
 # Run Self and Cross BLASTP
-blastp -query wheat-subject-protein-sequences.fasta -db wheat-subject -out wheat-subject.blast -evalue 1e-5 -outfmt 6 -num_threads 4
-blastp -query wheat-query-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query-blast-results.txt -evalue 1e-5 -outfmt 6 -num_threads 4
+blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query.blast -evalue 1e-5 -outfmt 6 -num_threads 4
+blastp -query wheat-query-protein-sequences.fasta -db wheat-subject_db -out wheat-query-subject-blast-results.txt -evalue 1e-5 -outfmt 6 -num_threads 4
 
 # Example PBS Script
 #!/bin/bash
@@ -75,6 +56,19 @@ blastp -query wheat-query-protein-sequences.fasta -db wheat-query_db -out wheat-
 ml blast/2.16.0
 cd /directory/this/saved/mcscanx_results_wheat-subject-wheat-query
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query-blast-results.txt -outfmt 6 -evalue 1e-5 -num_threads 4
+```
+
+## 4. Prepare GFF Files
+```bash
+awk '$3 == "gene" {split($9, a, ";"); print $1, a[1]"_1", $4, $5}' OFS='\t' wheat-subject.high.gff3 > fixed-wheat-subject.gff
+
+# Fix Gene Naming for Compatibility
+awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' fixed-wheat-subject.gff > updated-wheat-subject.fixed.gff
+
+# Do the same for the wheat-query
+
+# Combine Annotations
+cat wheat-subject.gff wheat-query-fixed.gff > combined-wheats-subject-query.gff
 ```
 
 ## 6. Run MCScanX
