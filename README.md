@@ -58,7 +58,23 @@ cd /directory/this/saved/mcscanx_results_wheat-subject-wheat-query
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query-blast-results.txt -outfmt 6 -evalue 1e-5 -num_threads 4
 ```
 
-## 4. Prepare GFF Files
+## 4. Normalize BLAST IDs to match your GFF
+```bash
+awk 'BEGIN{OFS="\t"}{
+  # Fix query (col 1)
+  gsub(/\.[0-9]+_/, "_", $1)        # ... .1_  ->  _
+  gsub(/(LC|HC)\.[0-9]+_/, "_", $1) # ... LC.1_ or HC.1_ -> _
+  gsub(/(LC|HC)_/, "_", $1)         # fallback: LC_ or HC_ -> _
+
+  # Fix subject (col 2)
+  gsub(/\.[0-9]+_/, "_", $2)
+  gsub(/(LC|HC)\.[0-9]+_/, "_", $2)
+  gsub(/(LC|HC)_/, "_", $2)
+
+  print
+}' glenn-csv21.blast > glenn-csv21.norm.blast
+```
+## 5. Prepare GFF Files
 ```bash
 awk '$3 == "gene" {split($9, a, ";"); print $1, a[1]"_1", $4, $5}' OFS='\t' wheat-subject.high.gff3 > fixed-wheat-subject.gff
 
