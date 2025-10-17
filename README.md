@@ -67,6 +67,14 @@ awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' fixed-wheat-subject.gff 
 
 # Combine Annotations
 cat wheat-subject.gff wheat-query-fixed.gff > combined-wheats-subject-query.gff
+
+# Match gff IDs to blast result
+awk 'BEGIN{OFS="\t"}
+{
+  # If the 4th field ends with _1 but has no .<num> before it, insert ".1"
+  if ($4 ~ /_1$/ && $4 !~ /\.[0-9]+_1$/) sub(/_1$/, ".1_1", $4)
+  print
+}' combined-subject-query.gff > subject-query.gff
 ```
 
 ## 5. Normalize BLAST IDs to match your GFF
