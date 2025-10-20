@@ -28,8 +28,8 @@ gffread --version
 # Translate CDS → Proteins
 conda create -n emboss_env -c bioconda emboss
 conda activate emboss_env
-transeq -sequence wheat.subject.cds.fa -outseq wheat-subject-protein-sequences.fasta
-transeq -sequence wheat.query.cds.fa -outseq wheat-query-protein-sequences.fasta
+transeq -sequence wheat-subject.high.cds.fa -outseq wheat-subject-protein-sequences.fasta
+transeq -sequence wheat-query.high.cds.fa -outseq wheat-query-protein-sequences.fasta
 ```
 ## 3. Run BLASTP Alignments
 ```bash
