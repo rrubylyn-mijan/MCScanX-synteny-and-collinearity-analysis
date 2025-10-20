@@ -30,13 +30,15 @@ conda create -n emboss_env -c bioconda emboss
 conda activate emboss_env
 transeq -sequence wheat-subject.high.cds.fa -outseq wheat-subject-protein-sequences.fasta
 transeq -sequence wheat-query.high.cds.fa -outseq wheat-query-protein-sequences.fasta
+
+cat wheat-query-protein-sequences.fasta wheat-subject-protein-sequences.fasta > query-subject.protein.fa
 ```
 ## 3. Run BLASTP Alignments
 ```bash
 # Create BLAST Databases
 ml blast/2.16.0
 
-makeblastdb -in wheat-query.protein.fa -dbtype prot -out wheat_db
+makeblastdb -in wheat-query.protein.fa -dbtype prot -out query-subject_db
 
 # Run BLASTP
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query.blast -evalue 1e-5 -outfmt 6 -num_threads 4
