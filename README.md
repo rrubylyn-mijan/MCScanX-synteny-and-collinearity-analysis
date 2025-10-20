@@ -71,10 +71,15 @@ awk -F'\t' '$3=="gene"{
 }' OFS='\t' wheat-subject.high.gff3 > wheat-subject-chr.gff # Do the same for wheat-query
 
 # Change chr to Ta
-awk 'BEGIN{OFS="\t"}{$1 = gensub(/^chr/, "Ta", 1, $1); print}' wheat-subject-chr.gff > wheat-subject.gff
+awk 'BEGIN{OFS="\t"}{$1 = gensub(/^chr/, "Ta", 1, $1); print}' wheat-subject-chr.gff > wheat-subject-Ta.gff
 
 # Change Chr to Cs
-awk 'BEGIN{OFS="\t"}{$1 = gensub(/^Chr/, "Cs", 1, $1); print}' wheat-query-Chr.gff > wheat-query.gff
+awk 'BEGIN{OFS="\t"}{$1 = gensub(/^Chr/, "Cs", 1, $1); print}' wheat-query-Chr.gff > wheat-query-Cs.gff
+
+# Filter out all lines where the 1st column (chromosome name) doesn’t start with "chr" and keep only the true chromosomes (chr1A–chr7D)
+awk 'BEGIN{FS=OFS="\t"} $1 ~ /^Ta[1-7][ABD]?$/ {print}' wheat-subject-Ta.gff > wheat-subject.gff
+
+awk 'BEGIN{FS=OFS="\t"} $1 ~ /^Cs[1-7][ABD]?$/ {print}' wheat-query-Cs.gff > wheat-query.gff
 ```
 
 ## 5. Normalize BLAST IDs to match your GFF
