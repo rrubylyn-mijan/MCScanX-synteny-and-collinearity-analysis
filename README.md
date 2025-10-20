@@ -82,6 +82,8 @@ awk 'BEGIN{OFS="\t"}{$1 = gensub(/^Chr/, "Cs", 1, $1); print}' wheat-query-Chr.g
 awk 'BEGIN{FS=OFS="\t"} $1 ~ /^Ta[1-7][ABD]?$/ {print}' wheat-subject-Ta.gff > wheat-subject.gff
 
 awk 'BEGIN{FS=OFS="\t"} $1 ~ /^Cs[1-7][ABD]?$/ {print}' wheat-query-Cs.gff > wheat-query.gff
+
+cat wheat-query.gff wheat-subject.gff > query-subject.gff
 ```
 
 ## 5. Normalize BLAST IDs to match your GFF
