@@ -58,23 +58,23 @@ blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out whea
 
 ## 4. Prepare GFF Files
 ```bash
-awk '$3 == "gene" {split($9, a, ";"); print $1, a[1]"_1", $4, $5}' OFS='\t' wheat-subject.high.gff3 > fixed-wheat-subject.gff
+awk -F'\t' '$3=="gene"{
+  split($9,a,";");
+  id="";
+  for(i in a)
+    if(a[i]~/^ID=/){
+      id=a[i];
+      sub(/^ID=/,"",id)
+    }
+  if(id!="")
+    print $1, id, $4, $5
+}' OFS='\t' wheat-subject.high.gff3 > wheat-subject-chr.gff # Do the same for wheat-query
 
-# Fix Gene Naming for Compatibility
-awk '{split($2, a, "="); print $1"\t"$3"\t"$4"\t"a[2]}' fixed-wheat-subject.gff > updated-wheat-subject.fixed.gff
+# Change chr to Ta
+awk 'BEGIN{OFS="\t"}{$1 = gensub(/^chr/, "Ta", 1, $1); print}' wheat-subject-chr.gff > wheat-subject.gff
 
-# Do the same for the wheat-query
-
-# Combine Annotations
-cat wheat-subject.gff wheat-query-fixed.gff > combined-wheats-subject-query.gff
-
-# Match gff IDs to blast result
-awk 'BEGIN{OFS="\t"}
-{
-  # If the 4th field ends with _1 but has no .<num> before it, insert ".1"
-  if ($4 ~ /_1$/ && $4 !~ /\.[0-9]+_1$/) sub(/_1$/, ".1_1", $4)
-  print
-}' combined-subject-query.gff > subject-query.gff
+# Change Chr to Cs
+awk 'BEGIN{OFS="\t"}{$1 = gensub(/^Chr/, "Cs", 1, $1); print}' wheat-query-Chr.gff > wheat-query.gff
 ```
 
 ## 5. Normalize BLAST IDs to match your GFF
