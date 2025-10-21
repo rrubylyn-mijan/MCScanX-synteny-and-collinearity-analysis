@@ -22,6 +22,7 @@ java dot_plotter
 ```bash
 # Extract Coding Sequences (CDS)
 ml anaconda3/2022.05
+
 conda create -n myenv -c bioconda gffread
 conda activate myenv
 gffread --version
