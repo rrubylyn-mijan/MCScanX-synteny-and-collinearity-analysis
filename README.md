@@ -86,19 +86,13 @@ cat wheat-query.gff wheat-subject.gff > query-subject.gff
 
 ## 5. Normalize BLAST IDs to match your GFF
 ```bash
-awk 'BEGIN{OFS="\t"}{
-  # Fix query (col 1)
-  gsub(/\.[0-9]+_/, "_", $1)        # ... .1_  ->  _
-  gsub(/(LC|HC)\.[0-9]+_/, "_", $1) # ... LC.1_ or HC.1_ -> _
-  gsub(/(LC|HC)_/, "_", $1)         # fallback: LC_ or HC_ -> _
+# Find all entries not matching gene IDs
+awk '{print $1}' wheat-query.blast | grep -vE '^TRAES\.GLN\.r1\.[0-9A-Z]+G[0-9]+\.[0-9]+_[0-9]+$' | sort | uniq > bad_names.txt
 
-  # Fix subject (col 2)
-  gsub(/\.[0-9]+_/, "_", $2)
-  gsub(/(LC|HC)\.[0-9]+_/, "_", $2)
-  gsub(/(LC|HC)_/, "_", $2)
+awk '{print $2}' wheat-subject.blast | grep -vE '^TraesCS[0-9ABD]{1,2}03G[0-9]+\.[0-9]+_[0-9]+$' | sort | uniq > bad_subjects.txt
 
-  print
-}' glenn-csv21.blast > glenn-csv21.norm.blast
+# Remove the .1_1 suffix from the first (and/or second) column in your BLAST file using sed
+sed -E 's/\.[0-9]+_[0-9]+//g' glenn-csv21.cleaned.blast > glenn-csv21.nosuffix.blast
 ```
 
 ## 6. Run MCScanX
