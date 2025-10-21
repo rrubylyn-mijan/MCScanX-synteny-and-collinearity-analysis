@@ -36,7 +36,7 @@ transeq -sequence wheat-query.high.cds.fa -outseq wheat-query-protein-sequences.
 # Create BLAST Databases
 ml blast/2.16.0
 
-makeblastdb -in wheat-query.protein.fa -dbtype prot -out query-subject_db
+makeblastdb -in wheat-subject.protein.fa -dbtype prot -out wheat-subject_db
 
 # Run BLASTP
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query.blast -evalue 1e-5 -outfmt 6 -num_threads 4
