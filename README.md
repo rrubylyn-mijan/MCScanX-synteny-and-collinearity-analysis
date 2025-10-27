@@ -135,10 +135,10 @@ NR == FNR {
         print "link" ++n, pos[gene1];
         print "link" n, pos[gene2];
     }
-}' wheat.gff wheat.collinearity > circos_links.txt
+}' wheat.gff wheat.collinearity > circos-links-wheat.txt
 
 # Rename Chromosomes for Circos
-awk '{gsub(/^chr/, "ta", $2); print}' circos_links.txt > collinearity_links.txt
+awk '{gsub(/^chr/, "ta", $2); print}' circos-links-wheat > collinearity-links-wheat.txt
 
 # Assign Colors per Chromosome
 awk '
@@ -150,7 +150,7 @@ BEGIN {
     if (match($2, /ta([1-7])[ABD]/, m))
         print $1, $2, $3, $4, "color="color[m[1]];
     else print $0;
-}' collinearity_links.txt > colored_output.txt
+}' collinearity-links-wheat > colored-output-wheat.txt
 ```
 
 ## 8. Run MCScanX on Individual Genomes
