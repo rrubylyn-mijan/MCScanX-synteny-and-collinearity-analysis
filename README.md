@@ -140,6 +140,9 @@ NR == FNR {
 # Rename Chromosomes for Circos
 awk '{gsub(/^chr/, "ta", $2); print}' circos-links-wheat > collinearity-links-wheat.txt
 
+# Keeps only lines containing “Ta”
+grep 'Ta' collinearity-links-wheat.txt > collinearity-links-wheat-TAonly.txt
+
 # Assign Colors per Chromosome
 awk '
 BEGIN {
@@ -150,18 +153,10 @@ BEGIN {
     if (match($2, /ta([1-7])[ABD]/, m))
         print $1, $2, $3, $4, "color="color[m[1]];
     else print $0;
-}' collinearity-links-wheat > colored-output-wheat.txt
+}' ollinearity-links-wheat-TAonly.txt > x9-collinearity-links-wheat
 ```
 
-## 8. Run MCScanX on Individual Genomes
-```bash
-ml blast-plus/2.14.1
-blastn -query wheat-subject.fasta -db wheat-query_db -evalue 1e-10 -outfmt 6 -out wheat-subject.blast -num_threads 8
-
-(Same format for other genomes; replace genome file names accordingly).
-```
-
-## 9. Prepare SynVisio Input
+## 8. Prepare SynVisio Input
 ```bash
 gene_id,chr,start,end,block_id
 Gene1,Chr01,100,200,Block1
