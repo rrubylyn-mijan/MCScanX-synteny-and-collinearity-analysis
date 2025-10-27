@@ -97,7 +97,6 @@ awk '{print $2}' wheat-subject.blast | grep -vE '^TraesCS[0-9ABD]{1,2}03G[0-9]+\
 awk 'NR==FNR{bad[$1]; next} !($1 in bad)' bad-names-wheat.txt wheat-subject-query.blast |
 awk 'NR==FNR{bad[$1]; next} !($2 in bad)' bad-subjects-wheat.txt - > wheat-subject-query.cleaned.blast
 
-
 # Remove the .1_1 suffix from the first (and/or second) column in your BLAST file using sed
 sed -E 's/\.[0-9]+_[0-9]+//g' glenn-csv21.cleaned.blast > glenn-csv21.nosuffix.blast
 ```
