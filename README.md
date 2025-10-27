@@ -137,11 +137,8 @@ NR == FNR {
     }
 }' wheat.gff wheat.collinearity > circos-links-wheat.txt
 
-# Rename Chromosomes for Circos
-awk '{gsub(/^chr/, "ta", $2); print}' circos-links-wheat > collinearity-links-wheat.txt
-
 # Keeps only lines containing “Ta”
-grep 'Ta' collinearity-links-wheat.txt > collinearity-links-wheat-TAonly.txt
+grep 'Ta' circos-links-wheat.txt > collinearity-links-wheat.txt
 
 # Assign Colors per Chromosome
 awk '
@@ -153,7 +150,7 @@ BEGIN {
     if (match($2, /ta([1-7])[ABD]/, m))
         print $1, $2, $3, $4, "color="color[m[1]];
     else print $0;
-}' ollinearity-links-wheat-TAonly.txt > x9-collinearity-links-wheat
+}' ollinearity-links-wheat.txt > x9-collinearity-links-wheat
 ```
 
 ## 8. Prepare SynVisio Input
