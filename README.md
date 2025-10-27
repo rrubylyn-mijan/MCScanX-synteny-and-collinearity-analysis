@@ -98,7 +98,7 @@ awk 'NR==FNR{bad[$1]; next} !($1 in bad)' bad-names-query.txt wheat-subject-quer
 awk 'NR==FNR{bad[$1]; next} !($2 in bad)' bad-names-subject.txt - > wheat-subject-query.cleaned.blast
 
 # Remove the .1_1 suffix from the first (and/or second) column in your BLAST file using sed
-sed -E 's/\.[0-9]+_[0-9]+//g' glenn-csv21.cleaned.blast > glenn-csv21.nosuffix.blast
+sed -E 's/\.[0-9]+_[0-9]+//g' wheat-subject-query.cleaned.blast > wheat-subject-query.nosuffix.blast
 ```
 
 ## 6. Run MCScanX
