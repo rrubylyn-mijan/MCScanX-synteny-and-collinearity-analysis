@@ -147,7 +147,7 @@ BEGIN {
     color["4"]="#E89DAF"; color["5"]="#F2DACB"; color["6"]="#93B07"; color["7"]="#77DD77";
 }
 {
-    if (match($2, /ta([1-7])[ABD]/, m))
+    if (match($2, /Ta([1-7])[ABD]/, m))
         print $1, $2, $3, $4, "color="color[m[1]];
     else print $0;
 }' collinearity-links-wheat.txt > x9-collinearity-links-wheat
