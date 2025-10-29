@@ -150,7 +150,7 @@ BEGIN {
     if (match($2, /ta([1-7])[ABD]/, m))
         print $1, $2, $3, $4, "color="color[m[1]];
     else print $0;
-}' ollinearity-links-wheat.txt > x9-collinearity-links-wheat
+}' collinearity-links-wheat.txt > x9-collinearity-links-wheat
 ```
 
 ## 8. Prepare SynVisio Input
