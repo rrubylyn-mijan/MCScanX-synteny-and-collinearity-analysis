@@ -43,6 +43,9 @@ makeblastdb -in wheat-subject.protein.fa -dbtype prot -out wheat-subject_db
 # Run BLASTP
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query.blast -evalue 1e-5 -outfmt 6 -num_threads 4
 
+# or
+blastp -query wheat-subject-protein-sequences.fasta -db wheat-subject_db -out wheat-subject.blast -evalue 1e-5 -outfmt 6 -num_threads 4
+
 # Example PBS Script
 #!/bin/bash
 #PBS -q default
@@ -56,6 +59,9 @@ blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out whea
 ml blast/2.16.0
 cd /directory/this/saved/mcscanx_results_wheat-subject-wheat-query
 blastp -query wheat-subject-protein-sequences.fasta -db wheat-query_db -out wheat-subject-query-blast-results.txt -outfmt 6 -evalue 1e-5 -num_threads 4
+
+# or
+blastp -query wheat-subject-protein-sequences.fasta -db wheat-subject_db -out wheat-subject.blast -evalue 1e-5 -outfmt 6 -num_threads 4
 ```
 
 ## 4. Prepare GFF Files
