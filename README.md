@@ -160,6 +160,8 @@ BEGIN {
 
 # Reformat file so each link is on a single line:
 awk 'NR%2==1 {id=$1; chr1=$2; s1=$3; e1=$4; next} {print id, chr1, s1, e1, $2, $3, $4, $5}' x9-collinearity-links-wheat > x9-collinearity-links-wheat.fixed
+
+sed -i 's/Ta/ta/g' x9-collinearity-links-wheat.fixed
 ```
 
 ## 8. Prepare SynVisio Input
