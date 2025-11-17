@@ -105,6 +105,19 @@ awk 'NR==FNR{bad[$1]; next} !($2 in bad)' bad-names-subject.txt - > wheat-subjec
 
 # Remove the .1_1 suffix from the first (and/or second) column in your BLAST file using sed
 sed -E 's/\.[0-9]+_[0-9]+//g' wheat-subject-query.cleaned.blast > wheat-subject-query.nosuffix.blast
+
+# Checking colors
+awk '
+{
+  if ($2 ~ /^ta[1-7][ABD]$/) {
+    chrom = substr($2,1,3)   # take ta1, ta2, … ta7
+    match($0,/color=#[0-9A-Fa-f]+/,m)
+    if (m[0] != "") {
+      color = substr(m[0],7)
+      print chrom, "→", color
+    }
+  }
+}' x9-collinearity-links-wheat | sort -u
 ```
 
 ## 6. Run MCScanX
