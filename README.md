@@ -163,7 +163,7 @@ grep 'Ta' circos-links-wheat.txt > collinearity-links-wheat.txt
 awk '
 BEGIN {
     color["1"]="#C379FF"; color["2"]="#EDDE74"; color["3"]="#E97E7E";
-    color["4"]="#E89DAF"; color["5"]="#F2DACB"; color["6"]="#93B07"; color["7"]="#77DD77";
+    color["4"]="#E89DAF"; color["5"]="#F2DACB"; color["6"]="#93B0a7"; color["7"]="#77DD77";
 }
 {
     if (match($2, /Ta([1-7])[ABD]/, m))
