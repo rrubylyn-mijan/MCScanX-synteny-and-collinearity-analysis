@@ -124,10 +124,10 @@ awk '
 ```bash
 # Example PBS Job
 #!/bin/bash
-#PBS -q bigmem
+#PBS -q default
 #PBS -N mcscanx_sumai3
-#PBS -l select=1:mem=300gb:ncpus=8
-#PBS -l walltime=128:00:00
+#PBS -l select=1:mem=128gb:ncpus=8
+#PBS -l walltime=48:00:00
 #PBS -M firstname.lastname@ndsu.edu
 #PBS -m abe
 #PBS -W group_list=x-ccast-prj-name
